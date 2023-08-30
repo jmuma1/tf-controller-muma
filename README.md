@@ -5,9 +5,13 @@ FOR MORE CONTEXT ON HOW I GET TO THIS POINT:
 - I create an EKS cluster with flux installed in it (The terraform files for this are not provided)
 - I run [ aws eks update-kubeconfig --region us-east-1 --name "name of eks cluster" --dry-run > ~/.kube/config ] to update the certificate in the kubeconfig file
 - I run [ kubectl apply -f tf-controller.yaml ] to create the tf-controller that leverages terraform commands
-- Finally, I run [ kubectl apply -f tf-resources.yaml] to attempt to create the aws-s3-bucket and its dependent aws-s3-bucket-acl. 
-***NOTE: In tf-resources.yaml, I removed the secrets/Private Key for security reasons. If anyone plans to pull this down locally and try to recreate my steps, let me know and I will provide a new secret/private key to use for this issue
+- Finally, I run [ kubectl apply -f tf-resources.yaml] to attempt to create the aws-s3-bucket and its dependent aws-s3-bucket-acl
+- Install flux binary
+- Install tfctl cli
+- ***NOTE: In tf-resources.yaml, I removed the secrets/Private Key for security reasons. If anyone plans to pull this down locally and try to recreate my steps, let me know and I will provide a new secret/private key to use for this issue
+- When I check the details of the aws-s3-buckets-outputs secret that gets created, I see the base64 encoded id is in there. To further confirm that the right bucket id is outputted and stored in this aws-s3-buckets-outputs secret, I use a base64 converter, which assures me the converted code is the desired name/id of the s3 bucket
 - The aws-s3-bucket is successfully created as it shows up in the console and after running [ tfctl get ] a couple times to the status update on the terraform plan/apply, tfctl eventually outputs [ Outputs written: main@sha1:45646546546544456458zfghghfgghfhfghfgh8g ] 
-- But the second part of [tfctl get] output says [ error running Plan: rpc error: code = Internal desc = variable "id" was required but not supplied ]. The containers then terminate and try to recreate, so the terraform workflow cycle repeats.
+- But the second part of [tfctl get] output says [ error running Plan: rpc error: code = Internal desc = variable "id" was required but not supplied ]
+- The containers then terminate and try to recreate, so the terraform workflow cycle repeats
 
-Please Share Thoughts
+Please Share Thoughts and Help Debug from this: https://github.com/jmuma1/tf-controller-muma/tree/1-flux-tf-controller-dependency-management-with-git-repository-source
