@@ -76,7 +76,7 @@ type: Opaque
 stringData:
   identity: |
     -----BEGIN OPENSSH PRIVATE KEY-----
-    ??
+    ???
     -----END OPENSSH PRIVATE KEY-----
   known_hosts: |
-    ??
+    ???
